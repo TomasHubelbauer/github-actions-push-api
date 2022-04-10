@@ -1,0 +1,32 @@
+on: push
+name: modification
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run the workflow script
+        run: |
+          # Make Bash print the commands as it is executing them
+          set -x
+          
+          # Generate new file content by using the current date and time instant
+          DATE=$(date -Iseconds)
+          
+          # Build the GitHub API URL using the GitHub Actions `github` context
+          # https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
+          # https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+          URL="${{github.api_url}}/repos/${{github.repository}}/contents/modification-wip-1"
+          
+          # Call the GitHub API to fetch the current version's SHA as a base
+          SHA=$(curl --no-progress-meter -u :${{github.token}} $URL | jq .sha)
+          
+          # Build the JSON payload string to send to the GitHub API endpoint
+          # https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
+          MESSAGE="Update workflow artifact file\n\nThis file was modified using the GitHub Actions workflow."
+          CONTENT=$(echo $DATE | base64)
+          DATA='{"message":"'$MESSAGE'","content":"'$CONTENT'","sha":"'$SHA'"}'
+          
+          # Call the GitHub API endpoint using Basic auth with PAT for password
+          # https://docs.github.com/en/rest/overview/other-authentication-methods#via-oauth-and-personal-access-tokens
+          curl --no-progress-meter -u :${{github.token}} -X PUT $URL -d "$DATA"
