@@ -63,8 +63,12 @@ GitHub Actions service account by using the integration PAT and omitting the
 the authenticated user which in the case of the integration PAT is the GitHub
 Actions service account. See:
 
-- [`creation.yml`](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/creation.yml)
-- [`modification.yml`](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/modification.yml)
+- [`creation.yml`](https://github.com/TomasHubelbauer/github-actions-push-api/blob/main/.github/workflows/creation.yml)
+- [`modification.yml`](https://github.com/TomasHubelbauer/github-actions-push-api/blob/main/.github/workflows/modification.yml)
+
+Even multiple-file changes are possible, but need to be done using the GQL API:
+
+[`graphql.yml`](https://github.com/TomasHubelbauer/github-actions-push-api/blob/main/.github/workflows/graphql.yml)
 
 ## Notes
 
