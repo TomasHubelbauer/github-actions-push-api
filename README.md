@@ -167,16 +167,24 @@ The `41898282` number here is the same as in the REST response, but it is a
 different workflow, so that number is very likely something tied to my GitHub
 identity and not the workflow.
 
+Multiple changes can also be captured as if coming from the GitHub Actions
+service account by configuring the Git client to use its email and name, see
+[Git](#git).
+
 ### Git
 
 Git-based solution where the Git CLI is configured and used in the workflow to
 push the changes back to GitHub doesn't allow one to provide null identity. The
-email can be left empty, but _a_ name needs to be provided. When setting the
-name to my handle and leaving the email empty, a commit with no associated
-GitHub identity gets created. This is somewhat good as it would probably not
-associate that email with me in the contribution chart, but I want to associate
-the commit with the GitHub Actions service account and that I have not been able
-to achieve yet.
+email can be left empty, but _a_ name needs to be provided.
+
+In order to not associate those commits with me, I have switched the name and
+email from mine to the ones used by the GitHub Actions service account:
+`41898282+github-actions[bot]@users.noreply.github.com` : `github-actions[bot]`.
+This had the effect of associating the commits with the GitHub Actions service
+account.
+
+It's less ideal than using the API in my view as the identity needs to be set up
+explicitly in the workflow like this, but it's possible.
 
 ## To-Do
 
@@ -196,14 +204,3 @@ With no need to call the Git client anymore even for multi-file commits, it'd be
 useful to have copy-paste friendly scripts to paste in my Node-based projects
 and just have the workflow call the Node script which will take care of the work
 itself as well as the push.
-
-### See if I can use the email returned from the GitHub API for a Git identity
-
-See the [API Response](#api-response).
-
-I wonder if I could set up a Git identity with my name or handle for the name
-and this `41898282+github-actions[bot]@users.noreply.github.com` email and use
-it to push to the repository and whether if I do that, the service account of
-GitHub Actions will get associated with the commit like when I commit through
-the API. This would be useful for committing using Git and making multiple file
-changes in the commits instead of using the API which would be clunky for this.
