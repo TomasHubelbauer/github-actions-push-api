@@ -1,5 +1,14 @@
 # GitHub Actions Push API
 
+[
+  ![creation](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/creation.yml/badge.svg)
+](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/creation.yml)
+[
+  ![modification](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/modification.yml/badge.svg)
+](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/modification.yml)
+
+## Preface
+
 I have come up with a way to push changes from a GitHub Actions workflow back to
 the repository already here:
 
@@ -43,15 +52,16 @@ the workflow and not specify `committer` and `author` as those seem optional.
 Will that work? It says it will use the identity associated with the PAT used,
 but if there's none since it is the integration PAT, what will happen?
 
-https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
-
 ## Results
 
 I was able to use the GitHub API to make a file that appears as pushed by the
 GitHub Actions service account by using the integration PAT and omitting the
 `committer` and `author` fields in the request payload. These fields default to
 the authenticated user which in the case of the integration PAT is the GitHub
-Actions service account.
+Actions service account. See:
+
+- [`creation.yml`](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/creation.yml)
+- [`modification.yml`](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/modification.yml)
 
 ## Notes
 
