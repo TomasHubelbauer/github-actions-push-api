@@ -4,7 +4,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - name: Print an echo
+      - name: Run the workflow script
         run: |
           # Make Bash print the commands as it is executing them
           set -x
@@ -30,9 +30,8 @@ jobs:
           DATA='{"message":"'$MESSAGE'","content":"'$CONTENT'"}'
           
           # Print the nascent cURL call with its options set up for manual review
-          # -i: Print response headers alongside the response body
           # -u: Configure authentication using the GitHub user name and PAT
           # https://docs.github.com/en/rest/guides/getting-started-with-the-rest-api#using-personal-access-tokens
           # -X: Set the HTTP method/verb to PUT as per the API documentation
           # -d: Send the provided JSON payload string as the API request body
-          curl -i -u tomashubelbauer:${{github.token}} -X PUT $URL -d "$DATA"
+          curl -u ${{github.repository_owner}}:${{github.token}} -X PUT $URL -d "$DATA"
