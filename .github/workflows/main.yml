@@ -29,9 +29,6 @@ jobs:
           CONTENT=$(echo $DATE | base64)
           DATA='{"message":"'$MESSAGE'","content":"'$CONTENT'"}'
           
-          # Print the nascent cURL call with its options set up for manual review
-          # -H: Pass the integration PAT to the Authorization request header
-          # https://docs.github.com/en/rest/overview/other-authentication-methods#authenticating-for-saml-sso
-          # -X: Set the HTTP method/verb to PUT as per the API documentation
-          # -d: Send the provided JSON payload string as the API request body
-          curl --no-progress-meter -H "Authorization: token ${{github.token}}" -X PUT $URL -d "$DATA"
+          # Call the GitHub API endpoint using Basic auth with PAT for password
+          # https://docs.github.com/en/rest/overview/other-authentication-methods#via-oauth-and-personal-access-tokens
+          curl --no-progress-meter -u :${{github.token}} -X PUT $URL -d "$DATA"
