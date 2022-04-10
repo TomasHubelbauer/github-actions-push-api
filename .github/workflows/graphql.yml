@@ -20,7 +20,7 @@ jobs:
         
         MUTATION='mutation($input:CreateCommitOnBranchInput!) { createCommitOnBranch(input:$input) { commit, ref } }'
         
-        DATA='{"query":"'$MUTATION'\\n'$VARIABLES'"}'
+        DATA='{"query":"'$MUTATION'\n'$VARIABLES'"}'
 
         # Call the GitHub GQL API endpoint using the integration PAT token
         # https://docs.github.com/en/graphql/guides/forming-calls-with-graphql#communicating-with-graphql
