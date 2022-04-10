@@ -119,12 +119,9 @@ subsequent call behave as a creation call, as desired.
 
 https://docs.github.com/en/rest/reference/repos#get-repository-content
 
+See [`modification.yml`](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/modification.yml).
+
 ## To-Do
-
-### Test out modification instead of creation to have a solution to the `sha`
-
-Let's see if another run while the file already exists will cause an update and
-not another creation or an error.
 
 ### See if I can create a Git identity with empty name and password and Git push
 
