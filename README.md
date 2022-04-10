@@ -101,6 +101,17 @@ https://docs.github.com/en/rest/overview/other-authentication-methods#authentica
 
 ## To-Do
 
+### Test out modification instead of creation to have a solution to the `sha`
+
+The GitHub Contents API requires a `sha` field when replacing an existing file.
+This is not a SHA of a commit, but the file blob itself. I think the easiest way
+to get it is to use the API to inspect the file:
+
+https://docs.github.com/en/rest/reference/repos#get-repository-content
+
+One could also add a checkout step and calculate the checked out file SHA, but
+this is going to be more useful when working with single-file commits.
+
 ### See if I can create a Git identity with empty name and password and Git push
 
 In order to not have to push files individually, could I use Git instead of the
