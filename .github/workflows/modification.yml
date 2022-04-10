@@ -19,7 +19,8 @@ jobs:
           URL="${{github.api_url}}/repos/${{github.repository}}/contents/modification-wip-1"
           
           # Call the GitHub API to fetch the current version's SHA as a base
-          SHA=$(curl --no-progress-meter -u :${{github.token}} $URL | jq .sha)
+          # Note that `-r` (raw) is used with `jq` to not get string quotes
+          SHA=$(curl --no-progress-meter -u :${{github.token}} $URL | jq -r .sha)
           
           # Build the JSON payload string to send to the GitHub API endpoint
           # https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
