@@ -11,26 +11,21 @@ jobs:
           
           # Generate a unique name by using the current date and time instant
           DATE=$(date -Iseconds)
-          echo $DATE
           
           # Replace "T" and colons with dashes to get a valid file name
           NAME=${DATE//[T:]/-}
-          echo $NAME
           
           # Drop the time zone offset (it is always the same on the runner)
           NAME=${NAME:0:19}
-          echo $NAME
           
           # Build the GitHub API URL using the GitHub Actions `github` context
           # https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
           # https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
-          URL="${{github.api_url}}/repos/${{github.repository}}/contents/$PATH"
-          echo $URL
+          URL="${{github.api_url}}/repos/${{github.repository}}/contents/$NAME"
           
           # Build the JSON payload string to send to the GitHub API endpoint
           # https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
           DATA='{"message":"Make a flag file\n\nThis file is generated using the GitHub Actions workflow.","content":"'$DATE'"}'
-          echo $DATA
           
           # Print the nascent cURL call with its options set up for manual review
           # -i: Print response headers alongside the response body
