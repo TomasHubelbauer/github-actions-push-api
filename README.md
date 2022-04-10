@@ -48,8 +48,18 @@ https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
 ## Results
 
 I was able to use the GitHub API to make a file that appears as pushed by the
-GitHub Actions service account. The response payload includes these values for
-the commiteer and author fields on the commit object:
+GitHub Actions service account by using the integration PAT and omitting the
+`committer` and `author` fields in the request payload. These fields default to
+the authenticated user which in the case of the integration PAT is the GitHub
+Actions service account.
+
+## Notes
+
+### API Response
+
+The API response with the `author` and `committer` fields coerced to defaults,
+the authenticated user - GitHub Actions service account in the case of the
+integration PAT, looks like this:
 
 ```json
 "author": {
@@ -63,26 +73,43 @@ the commiteer and author fields on the commit object:
 ```
 
 I am not sure what the number `41898282` represents. I am guessing it might be
-my GitHub user ID, or the workflow ID or something like that. It is consistent
-across runs.
+my GitHub user ID, or the workflow ID or something like that. It is constant
+across workflow runs.
 
-This `committer` and `author` objects appear like this even though when I passed
-the PAT to cURL using the `-u` option, I specified my GitHub handle as the user
-name (and the integration PAT as the password).
+This `committer` and `author` objects appear like this even when I use the Basic
+auth option and pass in my GitHub handle as the user name:
+`curl -u ${{github.repository_owner}}:${{github.token}}`
+
+The user name seems to be completely ignored and just the PAT in the password is
+used.
+
+### Authorization
+
+The GitHub API supports Basic authentication where the password is replaced by a
+PAT as well as using the `Authorization` header with a PAT. I tried both in the
+workflow and both works and I have stuck with the latter as it is shorted and it
+doesn't include the GitHub handle (user name):
+
+`curl -H "Authorization: token ${{github.token}}"`
+
+https://docs.github.com/en/rest/overview/other-authentication-methods#authenticating-for-saml-sso
+
+`curl -u ${{github.repository_owner}}:${{github.token}}`
+
+https://docs.github.com/en/rest/overview/other-authentication-methods#via-oauth-and-personal-access-tokens
 
 ## To-Do
 
-### See if the `Authorization` header would work better than the `-u` option
+### See if the Basic auth option could be used with an empty user name
 
-I am using `curl -u ${{github.repository_owner}}:${{github.token}}` in order to
-authenticate with GitHub. This requires passing a user name which seems to be
-ignored when using the integration PAT, but still, could I do it without one?
+The Basic auth option looks like this:
+`curl -u ${{github.repository_owner}}:${{github.token}}`
 
-When calling the GitHub REST API from Node, I use `token ${token}` for the
-`Authorization` header and it works, too. In cURL, the same would go like this:
-`curl -H "Authorization: token ${{github.token}}"`.
+I wonder if this would work as well:
+`curl -u :${{github.token}}`
 
-Will this work the same way as using the `-u` option?
+It would beat out the `Authorization` header option in length:
+`curl -H "Authorization: token ${{github.token}}"`
 
 ### See if I can create a Git identity with empty name and password and Git push
 
@@ -94,19 +121,7 @@ Will this fail? Will this also use the GitHub Actions service account?
 
 ### See if I can use the email returned from the GitHub API for a Git identity
 
-The API based push with the integration token returns this for the committer and
-author:
-
-```json
-"author": {
-  "name": "github-actions[bot]",
-  "email": "41898282+github-actions[bot]@users.noreply.github.com"
-},
-"committer": {
-  "name": "GitHub",
-  "email": "noreply@github.com"
-}
-```
+See the [API Response](#api-response).
 
 I wonder if I could set up a Git identity with my name or handle for the name
 and this `41898282+github-actions[bot]@users.noreply.github.com` email and use
