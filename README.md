@@ -167,6 +167,17 @@ The `41898282` number here is the same as in the REST response, but it is a
 different workflow, so that number is very likely something tied to my GitHub
 identity and not the workflow.
 
+### Git
+
+Git-based solution where the Git CLI is configured and used in the workflow to
+push the changes back to GitHub doesn't allow one to provide null identity. The
+email can be left empty, but _a_ name needs to be provided. When setting the
+name to my handle and leaving the email empty, a commit with no associated
+GitHub identity gets created. This is somewhat good as it would probably not
+associate that email with me in the contribution chart, but I want to associate
+the commit with the GitHub Actions service account and that I have not been able
+to achieve yet.
+
 ## To-Do
 
 ### Make sure the workflows/scripts fail in case the API calls fail
@@ -185,14 +196,6 @@ With no need to call the Git client anymore even for multi-file commits, it'd be
 useful to have copy-paste friendly scripts to paste in my Node-based projects
 and just have the workflow call the Node script which will take care of the work
 itself as well as the push.
-
-### See if I can create a Git identity with empty name and password and Git push
-
-In order to not have to push files individually, could I use Git instead of the
-REST API, authenticate with the GitHub using the integration PAT, make a commit
-with no name or email (`git commit --author " <>"`?) and push it using Git?
-
-Will this fail? Will this also use the GitHub Actions service account?
 
 ### See if I can use the email returned from the GitHub API for a Git identity
 
