@@ -16,7 +16,7 @@ jobs:
           # Build the GitHub API URL using the GitHub Actions `github` context
           # https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
           # https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
-          URL="${{github.api_url}}/repos/${{github.repository}}/contents/modification-wip-1"
+          URL="${{github.api_url}}/repos/${{github.repository}}/contents/artifact"
           
           # Call the GitHub API to fetch the current version's SHA as a base
           # Note that `-r` (raw) is used with `jq` to not get string quotes
