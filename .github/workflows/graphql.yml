@@ -11,7 +11,7 @@ jobs:
         set -x
 
         # Build the JSON payload string to send to the GitHub GQL API endpoint
-        DATA='{"query":"query { viewer { login } }"}'
+        DATA='{"query":"mutation { createCommitOnBranch(input:{message:"Make a test commit using GQL"}) { commit, ref } }"}'
 
         # Call the GitHub GQL API endpoint using the integration PAT token
         # https://docs.github.com/en/graphql/guides/forming-calls-with-graphql#communicating-with-graphql
