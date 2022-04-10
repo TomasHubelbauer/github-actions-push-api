@@ -25,7 +25,9 @@ jobs:
           
           # Build the JSON payload string to send to the GitHub API endpoint
           # https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
-          DATA='{"message":"Make a flag file\n\nThis file is generated using the GitHub Actions workflow.","content":"'$DATE'"}'
+          MESSAGE="Make a flag file\n\nThis file is generated using the GitHub Actions workflow."
+          CONTENT=$(echo $DATE | base64)
+          DATA='{"message":"'$MESSAGE'","content":"'$CONTENT'"}'
           
           # Print the nascent cURL call with its options set up for manual review
           # -i: Print response headers alongside the response body
