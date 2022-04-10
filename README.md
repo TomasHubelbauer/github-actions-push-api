@@ -54,7 +54,7 @@ the commiteer and author fields on the commit object:
 ```json
 "author": {
   "name": "github-actions[bot]",
-  "email": "########+github-actions[bot]@users.noreply.github.com"
+  "email": "41898282+github-actions[bot]@users.noreply.github.com"
 },
 "committer": {
   "name": "GitHub",
@@ -62,8 +62,9 @@ the commiteer and author fields on the commit object:
 }
 ```
 
-I am not sure if the number here replaced with `########` is constant or not, my
-guess is that it is not. I will update this text once I find out.
+I am not sure what the number `41898282` represents. I am guessing it might be
+my GitHub user ID, or the workflow ID or something like that. It is consistent
+across runs.
 
 This `committer` and `author` objects appear like this even though when I passed
 the PAT to cURL using the `-u` option, I specified my GitHub handle as the user
@@ -90,3 +91,26 @@ REST API, authenticate with the GitHub using the integration PAT, make a commit
 with no name or email (`git commit --author " <>"`?) and push it using Git?
 
 Will this fail? Will this also use the GitHub Actions service account?
+
+### See if I can use the email returned from the GitHub API for a Git identity
+
+The API based push with the integration token returns this for the committer and
+author:
+
+```json
+"author": {
+  "name": "github-actions[bot]",
+  "email": "41898282+github-actions[bot]@users.noreply.github.com"
+},
+"committer": {
+  "name": "GitHub",
+  "email": "noreply@github.com"
+}
+```
+
+I wonder if I could set up a Git identity with my name or handle for the name
+and this `41898282+github-actions[bot]@users.noreply.github.com` email and use
+it to push to the repository and whether if I do that, the service account of
+GitHub Actions will get associated with the commit like when I commit through
+the API. This would be useful for committing using Git and making multiple file
+changes in the commits instead of using the API which would be clunky for this.
