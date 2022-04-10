@@ -11,10 +11,10 @@ jobs:
         set -x
 
         # https://docs.github.com/en/graphql/reference/input-objects#committablebranch
-        BRANCH='{\"nameWithOwner\":\"${{github.repository}}\",\"branchName\":\"${{github.ref}}\"}'
+        BRANCH='{"nameWithOwner":"${{github.repository}}","branchName":"${{github.ref}}"}'
         
         # https://docs.github.com/en/graphql/reference/input-objects#commitmessage
-        MESSAGE='{\"headline\":\"Make a test commit using GQL\",\"body\":\"This commit was created using a GitHub Actions workflow.\"}'
+        MESSAGE='{"headline":"Make a test commit using GQL","body":"This commit was created using a GitHub Actions workflow."}'
         
         VARIABLES='{"input":{"branch":'$BRANCH',"message":'$MESSAGE'}}'
         
