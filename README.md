@@ -169,6 +169,13 @@ identity and not the workflow.
 
 ## To-Do
 
+### Add JavaScript alternatives to the Bash scripts to include in Node projects
+
+With no need to call the Git client anymore even for multi-file commits, it'd be
+useful to have copy-paste friendly scripts to paste in my Node-based projects
+and just have the workflow call the Node script which will take care of the work
+itself as well as the push.
+
 ### See if I can create a Git identity with empty name and password and Git push
 
 In order to not have to push files individually, could I use Git instead of the
