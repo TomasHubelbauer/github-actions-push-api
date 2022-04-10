@@ -11,7 +11,7 @@ jobs:
         set -x
 
         # https://docs.github.com/en/graphql/reference/input-objects#committablebranch
-        BRANCH='{nameWithOwner:"${{github.github.repository}}",branchName:"${{github.ref}}"}'
+        BRANCH='{"nameWithOwner":"${{github.repository}}","branchName":"${{github.ref}}"}'
         
         DATA='{"query":"mutation { createCommitOnBranch(input:{branch:'$BRANCH',message:\"Make a test commit using GQL\"}) { commit, ref } }"}'
 
