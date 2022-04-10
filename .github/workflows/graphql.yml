@@ -16,9 +16,17 @@ jobs:
         # https://docs.github.com/en/graphql/reference/input-objects#commitmessage
         MESSAGE='{"headline":"Make a test commit using GQL","body":"This commit was created using a GitHub Actions workflow."}'
         
+        # https://graphql.org/learn/queries/#variables
         VARIABLES='{"input":{"branch":'$BRANCH',"message":'$MESSAGE'}}'
         
-        MUTATION='mutation($input:CreateCommitOnBranchInput!) { createCommitOnBranch(input:$input) { commit, ref } }'
+        # https://docs.github.com/en/graphql/reference/objects#commit
+        COMMIT='commit { commitUrl, author { email, name }, committer { email, name } }'
+        
+        # https://docs.github.com/en/graphql/reference/objects#ref
+        REF='ref { name, prefix }'
+        
+        # https://docs.github.com/en/graphql/reference/mutations#createcommitonbranch
+        MUTATION='mutation($input:CreateCommitOnBranchInput!){createCommitOnBranch(input:$input){'$COMMIT','$REF'}}'
         
         DATA='{"query":"'$MUTATION'","variables":'$VARIABLES'}'
 
