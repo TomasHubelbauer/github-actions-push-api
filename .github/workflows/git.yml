@@ -14,7 +14,7 @@ jobs:
         set -x
         
         # Configure Git for the push from the workflow to the repository
-        #git config --global user.email ""
+        git config --global user.email ""
         git config --global user.name "${{github.repository_owner}}"
         
         # Check out the `main` branch - GitHub Actions checks out detached HEAD
