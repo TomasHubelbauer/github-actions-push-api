@@ -45,10 +45,48 @@ but if there's none since it is the integration PAT, what will happen?
 
 https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
 
-And if this doesn't give me anything good, could I still use Git instead of the
-API, authenticate with the GitHub remote using the integration PAT, create a
-commit with no name or email (`git commit --author " <>"`?) and push it? What
-will happen then? Is the behavior equivalent? What will GitHub display for the
-handle?
+## Results
 
-Let's find out.
+I was able to use the GitHub API to make a file that appears as pushed by the
+GitHub Actions service account. The response payload includes these values for
+the commiteer and author fields on the commit object:
+
+```json
+"author": {
+  "name": "github-actions[bot]",
+  "email": "########+github-actions[bot]@users.noreply.github.com"
+},
+"committer": {
+  "name": "GitHub",
+  "email": "noreply@github.com"
+}
+```
+
+I am not sure if the number here replaced with `########` is constant or not, my
+guess is that it is not. I will update this text once I find out.
+
+This `committer` and `author` objects appear like this even though when I passed
+the PAT to cURL using the `-u` option, I specified my GitHub handle as the user
+name (and the integration PAT as the password).
+
+## To-Do
+
+### See if the `Authorization` header would work better than the `-u` option
+
+I am using `curl -u ${{github.repository_owner}}:${{github.token}}` in order to
+authenticate with GitHub. This requires passing a user name which seems to be
+ignored when using the integration PAT, but still, could I do it without one?
+
+When calling the GitHub REST API from Node, I use `token ${token}` for the
+`Authorization` header and it works, too. In cURL, the same would go like this:
+`curl -H "Authorization: token ${{github.token}}"`.
+
+Will this work the same way as using the `-u` option?
+
+### See if I can create a Git identity with empty name and password and Git push
+
+In order to not have to push files individually, could I use Git instead of the
+REST API, authenticate with the GitHub using the integration PAT, make a commit
+with no name or email (`git commit --author " <>"`?) and push it using Git?
+
+Will this fail? Will this also use the GitHub Actions service account?
