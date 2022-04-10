@@ -1,0 +1,8 @@
+on: push
+
+jobs:
+  main:
+    runs-on: ubuntu
+    steps:
+      - name: Print an echo
+        run: echo "It works!"
