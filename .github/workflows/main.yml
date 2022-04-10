@@ -34,4 +34,4 @@ jobs:
           # https://docs.github.com/en/rest/guides/getting-started-with-the-rest-api#using-personal-access-tokens
           # -X: Set the HTTP method/verb to PUT as per the API documentation
           # -d: Send the provided JSON payload string as the API request body
-          curl -u ${{github.repository_owner}}:${{github.token}} -X PUT $URL -d "$DATA"
+          curl --no-progress-meter -u ${{github.repository_owner}}:${{github.token}} -X PUT $URL -d "$DATA"
