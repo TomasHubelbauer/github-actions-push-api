@@ -86,8 +86,7 @@ integration PAT, looks like this:
 ```
 
 I am not sure what the number `41898282` represents. I am guessing it might be
-my GitHub user ID, or the workflow ID or something like that. It is constant
-across workflow runs.
+my GitHub user ID. It is constant across workflow runs and between workflows.
 
 This `committer` and `author` objects appear like this even when I use the Basic
 auth option and pass in my GitHub handle as the user name:
@@ -130,13 +129,41 @@ The REST API doesn't support creating/modifying multiple files in one call. The
 GraphQL API provided by GitHub, however, does. This is implemented in the 
 `graphql` workflow.
 
+If the contents are changed to what's already on the branch, an empty commit
+will be created. See https://github.com/TomasHubelbauer/github-actions-push-api/commit/20f476
+
+The identity is like with REST taken from the integration PAT and even querying
+it from the response confirms this:
+
+```json
+{
+  "data": {
+    "createCommitOnBranch": {
+      "commit": {
+        "commitUrl": "https://github.com/TomasHubelbauer/github-actions-push-api/commit/20f476",
+        "author": {
+          "email": "41898282+github-actions[bot]@users.noreply.github.com",
+          "name": "github-actions[bot]"
+        },
+        "committer": {
+          "email": "noreply@github.com",
+          "name": "GitHub"
+        }
+      },
+      "ref": {
+        "name": "main",
+        "prefix": "refs/heads/"
+      }
+    }
+  }
+}
+```
+
+The `41898282` number here is the same as in the REST response, but it is a
+different workflow, so that number is very likely something tied to my GitHub
+identity and not the workflow.
+
 ## To-Do
-
-### See if GraphQL will create a new commit even when changing to same content
-
-To test this, I first need to push something, rerunning the workflow won't work
-because the HEAD has since changed due to the last commit. This is akin to not
-pulling before trying to push in Git.
 
 ### See if I can create a Git identity with empty name and password and Git push
 
