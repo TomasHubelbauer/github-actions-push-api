@@ -130,6 +130,13 @@ https://docs.github.com/en/graphql/reference/mutations#createcommitonbranch
 I think it might be possible to call the GQL endpoint with multiple mutations or
 one mutation with multiple file changes in the payload.
 
+https://docs.github.com/en/graphql/reference/input-objects#filechanges
+https://docs.github.com/en/graphql/reference/input-objects#fileaddition
+
+It seems that `FileAddition` allows both creating and modifying the file at a
+given path and `FileChanges` allows multiple `FileAddition`s so this should
+work.
+
 ### See if I can create a Git identity with empty name and password and Git push
 
 In order to not have to push files individually, could I use Git instead of the
