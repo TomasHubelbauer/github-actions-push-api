@@ -123,6 +123,13 @@ See [`modification.yml`](https://github.com/TomasHubelbauer/github-actions-push-
 
 ## To-Do
 
+### See if GraphQL can be used to call the API method on multiple files
+
+https://docs.github.com/en/graphql/reference/mutations#createcommitonbranch
+
+I think it might be possible to call the GQL endpoint with multiple mutations or
+one mutation with multiple file changes in the payload.
+
 ### See if I can create a Git identity with empty name and password and Git push
 
 In order to not have to push files individually, could I use Git instead of the
