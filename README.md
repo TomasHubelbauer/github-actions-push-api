@@ -6,6 +6,9 @@
 [
   ![modification](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/modification.yml/badge.svg)
 ](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/modification.yml)
+[
+  ![graphql](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/graphql.yml/badge.svg)
+](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/graphql.yml)
 
 ## Preface
 
@@ -121,21 +124,19 @@ https://docs.github.com/en/rest/reference/repos#get-repository-content
 
 See [`modification.yml`](https://github.com/TomasHubelbauer/github-actions-push-api/actions/workflows/modification.yml).
 
+### Multiple Files / GraphQL
+
+The REST API doesn't support creating/modifying multiple files in one call. The
+GraphQL API provided by GitHub, however, does. This is implemented in the 
+`graphql` workflow.
+
 ## To-Do
 
-### See if GraphQL can be used to call the API method on multiple files
+### See if GraphQL will create a new commit even when changing to same content
 
-https://docs.github.com/en/graphql/reference/mutations#createcommitonbranch
-
-I think it might be possible to call the GQL endpoint with multiple mutations or
-one mutation with multiple file changes in the payload.
-
-https://docs.github.com/en/graphql/reference/input-objects#filechanges
-https://docs.github.com/en/graphql/reference/input-objects#fileaddition
-
-It seems that `FileAddition` allows both creating and modifying the file at a
-given path and `FileChanges` allows multiple `FileAddition`s so this should
-work.
+To test this, I first need to push something, rerunning the workflow won't work
+because the HEAD has since changed due to the last commit. This is akin to not
+pulling before trying to push in Git.
 
 ### See if I can create a Git identity with empty name and password and Git push
 
