@@ -1,0 +1,18 @@
+on: push
+name: graphql
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run the workflow script
+      run: |
+        # Make Bash print the commands as it is executing them
+        set -x
+
+        # Build the JSON payload string to send to the GitHub GQL API endpoint
+        DATA='{"query":"query { viewer { login } }"}'
+
+        # Call the GitHub GQL API endpoint using the integration PAT token
+        # https://docs.github.com/en/graphql/guides/forming-calls-with-graphql#communicating-with-graphql
+        curl --no-progress-meter -H "Authorization: bearer ${{github.token}}" ${{github.graphql_url}} -d "$DATA"
