@@ -87,29 +87,19 @@ used.
 
 The GitHub API supports Basic authentication where the password is replaced by a
 PAT as well as using the `Authorization` header with a PAT. I tried both in the
-workflow and both works and I have stuck with the latter as it is shorted and it
-doesn't include the GitHub handle (user name):
+workflow and both work. The Basic auth option can even have no user name set and
+it still works:
+
+`curl -u :${{github.token}}`
+(or `curl -u ${{github.repository_owner}}:${{github.token}}`)
+
+https://docs.github.com/en/rest/overview/other-authentication-methods#via-oauth-and-personal-access-tokens
 
 `curl -H "Authorization: token ${{github.token}}"`
 
 https://docs.github.com/en/rest/overview/other-authentication-methods#authenticating-for-saml-sso
 
-`curl -u ${{github.repository_owner}}:${{github.token}}`
-
-https://docs.github.com/en/rest/overview/other-authentication-methods#via-oauth-and-personal-access-tokens
-
 ## To-Do
-
-### See if the Basic auth option could be used with an empty user name
-
-The Basic auth option looks like this:
-`curl -u ${{github.repository_owner}}:${{github.token}}`
-
-I wonder if this would work as well:
-`curl -u :${{github.token}}`
-
-It would beat out the `Authorization` header option in length:
-`curl -H "Authorization: token ${{github.token}}"`
 
 ### See if I can create a Git identity with empty name and password and Git push
 
