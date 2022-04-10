@@ -17,7 +17,7 @@ jobs:
         MESSAGE='{"headline":"Make a test commit using GQL","body":"This commit was created using a GitHub Actions workflow."}'
         
         # https://graphql.org/learn/queries/#variables
-        VARIABLES='{"input":{"branch":'$BRANCH',"message":'$MESSAGE'}}'
+        VARIABLES='{"input":{"branch":'$BRANCH',"message":'$MESSAGE',"expectedHeadOid":"${{github.sha}}"}}'
         
         # https://docs.github.com/en/graphql/reference/objects#commit
         COMMIT='commit { commitUrl, author { email, name }, committer { email, name } }'
