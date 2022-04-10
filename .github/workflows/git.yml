@@ -5,6 +5,9 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v3
+      
     - name: Run the workflow script
       run: |
         # Make Bash print the commands as it is executing them
