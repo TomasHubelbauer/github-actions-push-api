@@ -5,4 +5,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print an echo
-        run: echo "It works!"
+        run: |
+          # Generate a unique name by using the current date and time instant
+          DATE=$(date -Iseconds)
+          
+          # Replace "T" and colons with dashes and drop the time zone offset
+          PATH=${${DATE//[T:]/-}:0:19}
+          
+          # Build the GitHub API URL using the GitHub Actions `github` context
+          # https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
+          # https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+          URL="${{github.api_url}}/repos/${{github.repository}}contents/$PATH"
+          
+          # Print the API URL to verify we have everything set up right for the call
+          echo $URL
