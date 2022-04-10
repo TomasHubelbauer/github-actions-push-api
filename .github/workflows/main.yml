@@ -9,8 +9,11 @@ jobs:
           # Generate a unique name by using the current date and time instant
           DATE=$(date -Iseconds)
           
-          # Replace "T" and colons with dashes and drop the time zone offset
-          PATH=${${DATE//[T:]/-}:0:19}
+          # Replace "T" and colons with dashes to get a valid file name
+          NAME=${DATE//[T:]/-}
+          
+          # Drop the time zone offset (it is always the same on the runner)
+          NAME=${NAME:0:19}
           
           # Build the GitHub API URL using the GitHub Actions `github` context
           # https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
@@ -19,3 +22,15 @@ jobs:
           
           # Print the API URL to verify we have everything set up right for the call
           echo $URL
+          
+          # Build the JSON payload string to send to the GitHub API endpoint
+          # https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
+          DATA='{"message":"Make a flag file\n\nThis file is generated using the GitHub Actions workflow.","content":"$DATE"}'
+          
+          # Print the nascent cURL call with its options set up for manual review
+          # -i: Print response headers alongside the response body
+          # -u: Configure authentication using the GitHub user name and PAT
+          # https://docs.github.com/en/rest/guides/getting-started-with-the-rest-api#using-personal-access-tokens
+          # -X: Set the HTTP method/verb to PUT as per the API documentation
+          # -d: Send the provided JSON payload string as the API request body
+          echo "curl -i -u tomashubelbauer:${{github.token}} -X PUT $URL -d '$DATA'"
