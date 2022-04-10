@@ -169,6 +169,16 @@ identity and not the workflow.
 
 ## To-Do
 
+### Make sure the workflows/scripts fail in case the API calls fail
+
+I need to make sure this is the case so that no errors go unnoticed. I know for
+a fact the GraphQL workflow will pass even if the API call fails. I wonder if
+that's GitHub returning a 200 on error? Is that GraphQL spec being responsible?
+Maybe it's the REST ones, too, but I think cURL would exit with a non-zero on a
+non-OK HTTP code?
+
+See [`--fail-with-body`](https://curl.se/docs/manpage.html#--fail-with-body).
+
 ### Add JavaScript alternatives to the Bash scripts to include in Node projects
 
 With no need to call the Git client anymore even for multi-file commits, it'd be
