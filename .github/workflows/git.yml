@@ -7,6 +7,8 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3
+      with:
+        ref: main
       
     - name: Run the workflow script
       run: |
@@ -17,14 +19,8 @@ jobs:
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         
-        # Check out the `main` branch - GitHub Actions checks out detached HEAD
-        git checkout main
-        
         # Run the workflow script
         date -Iseconds > git-artifact
-        
-        # Authenticate with GitHub using the out-of-the-box workflow PAT
-        git remote set-url origin https://:${{github.token}}@github.com/${{github.repository}}
         
         # Stage the Git index changes resulting from the CI script
         git add git-artifact
