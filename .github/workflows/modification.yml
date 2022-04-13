@@ -1,5 +1,8 @@
-on: workflow_dispatch
 name: modification
+on:
+  workflow_dispatch:
+  push:
+    paths: .github/workflows/modification.yml
 
 jobs:
   main:
