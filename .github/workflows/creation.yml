@@ -1,5 +1,8 @@
-on: workflow_dispatch
 name: creation
+on:
+  workflow_dispatch:
+  push:
+    paths: .github/workflows/creation.yml
 
 jobs:
   main:
